@@ -2,11 +2,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
-  outputs = { nixpkgs, lib, ... }: let
+  outputs = { nixpkgs, ... }: let
     pkgs = import nixpkgs {
       system = "x86_64-linux";
     };
-    inherit (lib.strings) cmakeBool;
   in {
     devShells."x86_64-linux".default = pkgs.mkShell {
       nativeBuildInputs = with pkgs; [
@@ -16,14 +15,14 @@
     };
     packages."x86_64-linux".default = pkgs.stdenv.mkDerivation {
       pname = "MinimalSocket";
-      version = "v3.1";
+      version = "9999";
 
       src = ./.;
       strictDeps = true;
       cmakeFlags = [
-        (cmakeBool "BUILD_MinimalCppSocket_SAMPLES" false)
-        (cmakeBool "BUILD_MinimalCppSocket_TESTS" false)
-        (cmakeBool "LIB_OPT" true)
+        (pkgs.lib.strings.cmakeBool "BUILD_MinimalCppSocket_SAMPLES" false)
+        (pkgs.lib.strings.cmakeBool "BUILD_MinimalCppSocket_TESTS" false)
+        (pkgs.lib.strings.cmakeBool "LIB_OPT" true)
       ];
 
       nativeBuildInputs = with pkgs; [
@@ -34,8 +33,8 @@
       meta = {
         homepage = "https://github.com/andreacasalino/Minimal-Socket";
         description = "Minimal cross platform C++ tcp, udp socket implementation";
-        license = lib.licenses.gpl3;
-        platforms = lib.platforms.unix;
+        license = pkgs.lib.licenses.gpl3;
+        platforms = pkgs.lib.platforms.unix;
       };
 
     };
