@@ -34,3 +34,8 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_NAME}Config.cmake
     DESTINATION lib/cmake/${LIBRARY_NAME}
 )
+install(EXPORT ${LIBRARY_NAME}Targets
+    FILE ${LIBRARY_NAME}Targets.cmake
+    NAMESPACE ${LIBRARY_NAME}::
+    DESTINATION lib/cmake/${LIBRARY_NAME}
+)
