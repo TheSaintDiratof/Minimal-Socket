@@ -21,5 +21,16 @@ if(WIN32)
   target_link_libraries(${LIBRARY_NAME} PRIVATE wsock32 ws2_32)
 endif()
 
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_NAME}Config.cmake
+    INSTALL_DESTINATION lib/cmake/${LIBRARY_NAME}
+)
+
 install(TARGETS ${LIBRARY_NAME})
 install (DIRECTORY ${INCLUDE_DIR}/ DESTINATION include/${LIBRARY_NAME} FILES_MATCHING PATTERN "*.h*")
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_NAME}Config.cmake
+    DESTINATION lib/cmake/${LIBRARY_NAME}
+)
